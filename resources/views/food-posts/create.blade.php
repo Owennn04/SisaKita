@@ -1,74 +1,84 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Post Makanan Sisa
-        </h2>
-    </x-slot>
 
-    <div class="py-8 max-w-2xl mx-auto px-4">
-        <div class="bg-white rounded-lg shadow p-6">
+    <div style="max-width:600px;margin:0 auto">
+
+        {{-- Header --}}
+        <div style="text-align:center;margin-bottom:1.5rem">
+            <div style="font-size:36px;margin-bottom:8px">🍱</div>
+            <h1 style="font-size:22px;font-weight:600;color:#412402;margin-bottom:6px">Post Makanan Sisa</h1>
+            <p style="font-size:14px;color:#854F0B">Bantu mahasiswa lain dan kurangi food waste kampus</p>
+        </div>
+
+        {{-- Form --}}
+        <div class="sk-card">
             <form action="{{ route('food-posts.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Nama Makanan</label>
+                <div class="sk-form-group">
+                    <label class="sk-label">🍽️ Nama Makanan</label>
                     <input type="text" name="nama_makanan" value="{{ old('nama_makanan') }}"
-                           class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
-                           placeholder="contoh: Nasi Ayam">
+                           class="sk-input" placeholder="contoh: Nasi Ayam Goreng">
                     @error('nama_makanan')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        <p class="sk-error">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Jumlah Porsi</label>
+                <div class="sk-form-group">
+                    <label class="sk-label">🔢 Jumlah Porsi</label>
                     <input type="number" name="jumlah_porsi" value="{{ old('jumlah_porsi') }}"
-                           class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
-                           placeholder="contoh: 5" min="1">
+                           class="sk-input" placeholder="contoh: 5" min="1">
                     @error('jumlah_porsi')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        <p class="sk-error">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Lokasi Pengambilan</label>
+                <div class="sk-form-group">
+                    <label class="sk-label">📍 Lokasi Pengambilan</label>
                     <input type="text" name="lokasi" value="{{ old('lokasi') }}"
-                           class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
-                           placeholder="contoh: Kantin Gedung A">
+                           class="sk-input" placeholder="contoh: Kantin Gedung A Lt. 1">
                     @error('lokasi')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        <p class="sk-error">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Batas Waktu Pengambilan</label>
+                <div class="sk-form-group">
+                    <label class="sk-label">⏰ Batas Waktu Pengambilan</label>
                     <input type="datetime-local" name="batas_waktu" value="{{ old('batas_waktu') }}"
-                           class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+                           class="sk-input">
                     @error('batas_waktu')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        <p class="sk-error">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <div class="mb-6">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Foto (opsional)</label>
-                    <input type="file" name="foto" accept="image/*"
-                           class="w-full border rounded px-3 py-2">
+                <div class="sk-form-group">
+                    <label class="sk-label">📸 Foto Makanan (opsional)</label>
+                    <input type="file" name="foto" accept="image/*" class="sk-input">
                     @error('foto')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        <p class="sk-error">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <div class="flex gap-3">
-                    <button type="submit"
-                            class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">
-                        Post Makanan
+                <div style="display:flex;gap:10px;margin-top:1.5rem">
+                    <button type="submit" class="sk-btn-primary" style="flex:1;text-align:center">
+                        Post Makanan Sekarang
                     </button>
                     <a href="{{ route('food-posts.index') }}"
-                       class="bg-gray-200 text-gray-700 px-6 py-2 rounded hover:bg-gray-300">
+                       style="flex:1;text-align:center;padding:9px 18px;border:1px solid #FAC775;border-radius:8px;color:#854F0B;font-size:14px;text-decoration:none;display:inline-block">
                         Batal
                     </a>
                 </div>
             </form>
         </div>
+
+        {{-- Tips --}}
+        <div style="background:#FFF8F0;border:1px solid #FAC775;border-radius:12px;padding:1rem;margin-top:1rem">
+            <p style="font-size:13px;font-weight:600;color:#412402;margin-bottom:6px">💡 Tips posting</p>
+            <ul style="font-size:13px;color:#854F0B;padding-left:16px;line-height:1.8">
+                <li>Post makanan minimal 1 jam sebelum tutup</li>
+                <li>Cantumkan lokasi yang jelas agar mudah ditemukan</li>
+                <li>Foto akan membantu mahasiswa tertarik untuk klaim</li>
+            </ul>
+        </div>
     </div>
+
 </x-app-layout>
