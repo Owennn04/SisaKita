@@ -1,61 +1,54 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Klaim Masuk
-        </h2>
-    </x-slot>
 
-    <div class="py-8 max-w-4xl mx-auto px-4">
-
-        <div class="mb-4">
-            <a href="{{ route('food-posts.index') }}" class="text-blue-600 underline text-sm">
-                ← Kembali ke daftar makanan
-            </a>
+    <div style="margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between">
+        <div>
+            <h1 style="font-size:22px;font-weight:600;color:#412402">Klaim Masuk</h1>
+            <p style="font-size:14px;color:#854F0B">Konfirmasi pengambilan makanan oleh mahasiswa</p>
         </div>
+        <a href="{{ route('food-posts.index') }}" class="sk-nav-link">← Kembali</a>
+    </div>
 
-        @if(session('success'))
-            <div class="mb-4 p-4 bg-green-100 text-green-800 rounded">
-                {{ session('success') }}
-            </div>
-        @endif
+    @if(session('success'))
+        <div class="sk-alert-success">✅ {{ session('success') }}</div>
+    @endif
 
-        @forelse($claims as $claim)
-            <div class="bg-white rounded-lg shadow p-5 mb-4">
-                <div class="flex justify-between items-center">
-                    <div>
-                        <h3 class="text-lg font-semibold">{{ $claim->foodPost->nama_makanan }}</h3>
-                        <p class="text-gray-500 text-sm">👤 {{ $claim->user->name }}</p>
-                        <p class="text-gray-500 text-sm">📍 {{ $claim->foodPost->lokasi }}</p>
-                        <p class="text-gray-500 text-sm">⏰ Ambil sebelum: {{ \Carbon\Carbon::parse($claim->foodPost->batas_waktu)->format('H:i, d M Y') }}</p>
+    @forelse($claims as $claim)
+        <div class="sk-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+                <div style="flex:1">
+                    <div style="font-size:16px;font-weight:600;color:#412402;margin-bottom:6px">
+                        {{ $claim->foodPost->nama_makanan }}
                     </div>
-
-                    <div class="text-right">
-                        <p class="text-sm text-gray-500">Kode Klaim</p>
-                        <p class="text-2xl font-bold tracking-widest text-green-600">
-                            {{ $claim->kode_klaim }}
-                        </p>
-
-                        @if($claim->status === 'pending')
-                            <form action="{{ route('claims.confirm', $claim) }}" method="POST" class="mt-2">
+                    <div class="sk-meta">👤 {{ $claim->user->name }}</div>
+                    <div class="sk-meta">📍 {{ $claim->foodPost->lokasi }}</div>
+                    <div class="sk-meta">⏰ Ambil sebelum {{ \Carbon\Carbon::parse($claim->foodPost->batas_waktu)->format('H:i, d M Y') }}</div>
+                    <div style="margin-top:10px">
+                        @if($claim->status === 'confirmed')
+                            <span class="sk-status-confirmed">✅ Sudah diambil</span>
+                        @else
+                            <form action="{{ route('claims.confirm', $claim) }}" method="POST" style="display:inline">
                                 @csrf
                                 @method('PATCH')
-                                <button type="submit"
-                                        class="bg-green-600 text-white px-4 py-1 rounded hover:bg-green-700 text-sm">
+                                <button type="submit" class="sk-btn-primary">
                                     Konfirmasi Pengambilan
                                 </button>
                             </form>
-                        @else
-                            <span class="text-xs px-2 py-1 rounded-full bg-green-100 text-green-700 mt-2 inline-block">
-                                Sudah diambil
-                            </span>
                         @endif
                     </div>
                 </div>
+
+                <div style="text-align:center;background:#FFF8F0;border:1px solid #FAC775;border-radius:12px;padding:1rem;min-width:120px">
+                    <p style="font-size:11px;color:#854F0B;margin-bottom:6px">Kode Klaim</p>
+                    <div class="sk-kode">{{ $claim->kode_klaim }}</div>
+                </div>
             </div>
-        @empty
-            <div class="text-center text-gray-500 py-12">
-                <p class="text-xl">Belum ada klaim masuk.</p>
-            </div>
-        @endforelse
-    </div>
+        </div>
+    @empty
+        <div class="sk-empty">
+            <div class="sk-empty-icon">📋</div>
+            <p>Belum ada klaim masuk</p>
+            <span>Klaim akan muncul di sini setelah mahasiswa mengklaim makananmu</span>
+        </div>
+    @endforelse
+
 </x-app-layout>
