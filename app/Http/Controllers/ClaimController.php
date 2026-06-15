@@ -58,4 +58,23 @@ class ClaimController extends Controller
 
         return view('claims.my-claims', compact('claims'));
     }
+
+        public function confirm(Claim $claim)
+    {
+        $claim->update(['status' => 'confirmed']);
+
+        return redirect()->back()->with('success', 'Klaim berhasil dikonfirmasi.');
+    }
+
+    public function kantinClaims()
+    {
+        $claims = Claim::whereHas('foodPost', function ($query) {
+                $query->where('user_id', auth()->id());
+            })
+            ->with('foodPost', 'user')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('claims.kantin-claims', compact('claims'));
+    }
 }

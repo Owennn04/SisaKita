@@ -29,4 +29,6 @@ Route::middleware('auth')->group(function () {
     // Claims
     Route::post('/makanan/{foodPost}/klaim', [ClaimController::class, 'store'])->name('claims.store');
     Route::get('/klaim-saya', [ClaimController::class, 'myClaims'])->name('claims.my');
+    Route::patch('/klaim/{claim}/confirm', [ClaimController::class, 'confirm'])->name('claims.confirm');
+    Route::get('/klaim-masuk', [ClaimController::class, 'kantinClaims'])->name('claims.kantin');
 });
