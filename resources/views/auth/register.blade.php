@@ -92,4 +92,46 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="label">Konfirmasi
+                    <label class="label">Konfirmasi Password</label>
+                    <input type="password" name="password_confirmation" class="input" placeholder="Ulangi password" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="label">Daftar Sebagai</label>
+                    <div class="role-grid">
+                        <div class="role-option">
+                            <input type="radio" name="role" id="role_mahasiswa" value="mahasiswa"
+                                   {{ old('role', 'mahasiswa') === 'mahasiswa' ? 'checked' : '' }}>
+                            <label class="role-label" for="role_mahasiswa">
+                                <div class="role-icon">🎓</div>
+                                <div class="role-name">Mahasiswa</div>
+                                <div class="role-desc">Klaim makanan sisa</div>
+                            </label>
+                        </div>
+                        <div class="role-option">
+                            <input type="radio" name="role" id="role_kantin" value="kantin"
+                                   {{ old('role') === 'kantin' ? 'checked' : '' }}>
+                            <label class="role-label" for="role_kantin">
+                                <div class="role-icon">🏪</div>
+                                <div class="role-name">Kantin</div>
+                                <div class="role-desc">Post makanan sisa</div>
+                            </label>
+                        </div>
+                    </div>
+                    @error('role') <p class="error">{{ $message }}</p> @enderror
+                </div>
+
+                <button type="submit" class="btn">Buat Akun</button>
+            </form>
+
+            <div class="divider">
+                Sudah punya akun? <a href="{{ route('login') }}" class="link">Masuk di sini</a>
+            </div>
+        </div>
+
+        <div class="footer-tip">
+            🌱 Setiap porsi yang diselamatkan = 1 langkah menuju kampus bebas food waste
+        </div>
+    </div>
+</body>
+</html>
