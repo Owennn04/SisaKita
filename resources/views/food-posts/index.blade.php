@@ -66,6 +66,7 @@
                 @endif
 
                 @if(auth()->user()->role === 'kantin' && auth()->id() === $post->user_id)
+                    <a href="{{ route('food-posts.edit', $post) }}" class="sk-btn-primary">Edit</a>
                     <form action="{{ route('food-posts.destroy', $post) }}" method="POST">
                         @csrf
                         @method('DELETE')

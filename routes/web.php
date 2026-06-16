@@ -25,6 +25,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/makanan/tambah', [FoodPostController::class, 'create'])->name('food-posts.create');
     Route::post('/makanan', [FoodPostController::class, 'store'])->name('food-posts.store');
     Route::delete('/makanan/{foodPost}', [FoodPostController::class, 'destroy'])->name('food-posts.destroy');
+    Route::get('/makanan/{foodPost}/edit', [FoodPostController::class, 'edit'])->name('food-posts.edit');
+    Route::patch('/makanan/{foodPost}', [FoodPostController::class, 'update'])->name('food-posts.update');
 
     // Claims
     Route::post('/makanan/{foodPost}/klaim', [ClaimController::class, 'store'])->name('claims.store');

@@ -52,6 +52,46 @@ class FoodPostController extends Controller
             ->with('success', 'Makanan berhasil dipost!');
     }
 
+    public function edit(FoodPost $foodPost)
+{
+    if (auth()->id() !== $foodPost->user_id) {
+        abort(403);
+    }
+
+    return view('food-posts.edit', compact('foodPost'));
+}
+
+public function update(Request $request, FoodPost $foodPost)
+{
+    if (auth()->id() !== $foodPost->user_id) {
+        abort(403);
+    }
+
+    $request->validate([
+        'nama_makanan' => 'required|string|max:255',
+        'jumlah_porsi' => 'required|integer|min:1',
+        'lokasi'       => 'required|string|max:255',
+        'batas_waktu'  => 'required|date',
+        'foto'         => 'nullable|image|max:2048',
+    ]);
+
+    $fotoPath = $foodPost->foto;
+    if ($request->hasFile('foto')) {
+        $fotoPath = $request->file('foto')->store('food-photos', 'public');
+    }
+
+    $foodPost->update([
+        'nama_makanan' => $request->nama_makanan,
+        'jumlah_porsi' => $request->jumlah_porsi,
+        'lokasi'       => $request->lokasi,
+        'batas_waktu'  => $request->batas_waktu,
+        'foto'         => $fotoPath,
+    ]);
+
+    return redirect()->route('food-posts.index')
+        ->with('success', 'Makanan berhasil diupdate!');
+}
+
     public function destroy(FoodPost $foodPost)
     {
         $foodPost->delete();

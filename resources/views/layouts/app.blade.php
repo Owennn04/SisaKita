@@ -205,6 +205,12 @@
             padding: 4px 10px;
             border-radius: 20px;
         }
+        .sk-nav-link-active {
+            background: #FFF3E0;
+            color: #633806;
+            font-weight: 600;
+            border-bottom: 2px solid #EF9F27;
+        }
     </style>
 </head>
 <body>
@@ -214,14 +220,23 @@
         </a>
         <div class="sk-nav-links">
             @auth
-                <a href="{{ route('food-posts.index') }}" class="sk-nav-link">Makanan</a>
-                @if(auth()->user()->role === 'mahasiswa')
-                    <a href="{{ route('claims.my') }}" class="sk-nav-link">Klaim Saya</a>
-                @endif
-                @if(auth()->user()->role === 'kantin')
-                    <a href="{{ route('claims.kantin') }}" class="sk-nav-link">Klaim Masuk</a>
-                    <a href="{{ route('food-posts.create') }}" class="sk-btn-primary">+ Post Makanan</a>
-                @endif
+<a href="{{ route('food-posts.index') }}"
+   class="sk-nav-link {{ request()->routeIs('food-posts.index') ? 'sk-nav-link-active' : '' }}">
+   Makanan
+</a>
+@if(auth()->user()->role === 'mahasiswa')
+    <a href="{{ route('claims.my') }}"
+       class="sk-nav-link {{ request()->routeIs('claims.my') ? 'sk-nav-link-active' : '' }}">
+       Klaim Saya
+    </a>
+@endif
+@if(auth()->user()->role === 'kantin')
+    <a href="{{ route('claims.kantin') }}"
+       class="sk-nav-link {{ request()->routeIs('claims.kantin') ? 'sk-nav-link-active' : '' }}">
+       Klaim Masuk
+    </a>
+    <a href="{{ route('food-posts.create') }}" class="sk-btn-primary">+ Post Makanan</a>
+@endif
                 <form method="POST" action="{{ route('logout') }}" style="margin:0">
                     @csrf
                     <button type="submit" class="sk-nav-link" style="background:none;border:none;cursor:pointer">Keluar</button>
